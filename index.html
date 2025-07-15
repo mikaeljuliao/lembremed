@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LembreMed 💊</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>LembreMed 💊</h1>
+    <p>Organize seus medicamentos e nunca mais perca um horário!</p>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Cadastrar Medicamento</h2>
+      <!-- form que colote todos os dados do remedio-->
+      <form id="medForm">
+        <input type="text" id="nome" placeholder="Nome do medicamento" required />
+        <input type="text" id="dosagem" placeholder="Dosagem (ex: 500mg)" required />
+        <input type="time" id="horario" required />
+        <textarea id="obs" placeholder="Observações"></textarea>
+        <button type="submit">Adicionar</button>
+      </form>
+    </section>
+
+    <section class="lista-section">
+      <h2>Meus Medicamentos</h2>
+      <ul id="listaMedicamentos"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
