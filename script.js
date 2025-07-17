@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let nomesMedicamentos = [];
 
-  fetch('data/medicamentos.json/')
+  fetch('data/medicamentos.json')
     .then((resposta) => resposta.json())
     .then((dados) => {
       nomesMedicamentos = dados.map((med) => med.nome);
-      console.log('Medicamentos carregados:', nomesMedicamentos);
+      alert('Medicamentos carregados:', nomesMedicamentos);
     })
     .catch((erro) => console.error('Erro ao carregar medicamentos:', erro));
 
