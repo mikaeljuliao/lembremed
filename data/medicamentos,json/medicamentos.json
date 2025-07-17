@@ -1,0 +1,44 @@
+[
+  {
+    "nome": "Paracetamol",
+    "fabricante": "Medley",
+    "tipo": "Analgésico",
+    "classe": "Anilida",
+    "via": "Oral"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "fabricante": "Neo Química",
+    "tipo": "Antiinflamatório",
+    "classe": "AINEs (anti-inflamatórios não esteroidais)",
+    "via": "Oral"
+  },
+  {
+    "nome": "Amoxicilina",
+    "fabricante": "EMS",
+    "tipo": "Antibiótico",
+    "classe": "Penicilina",
+    "via": "Oral"
+  },
+  {
+    "nome": "Dipirona Sódica",
+    "fabricante": "Sanofi",
+    "tipo": "Analgésico e Antitérmico",
+    "classe": "Pirazolonas",
+    "via": "Oral ou Injetável"
+  },
+  {
+    "nome": "Omeprazol",
+    "fabricante": "Teuto",
+    "tipo": "Antiulceroso",
+    "classe": "Inibidor da bomba de prótons",
+    "via": "Oral"
+  },
+  {
+    "nome": "Losartana Potássica",
+    "fabricante": "EMS",
+    "tipo": "Antihipertensivo",
+    "classe": "Antagonista dos receptores de angiotensina II (BRA)",
+    "via": "Oral"
+  }
+]
