@@ -25,12 +25,12 @@
     "fabricante": "Sanofi",
     "tipo": "Analgésico e Antitérmico",
     "classe": "Pirazolonas",
-    "via": "Oral ou Injetável"
+    "via": "Oral ou injetável"
   },
   {
     "nome": "Omeprazol",
     "fabricante": "Teuto",
-    "tipo": "Antiulceroso",
+    "tipo": "Anticulceroso",
     "classe": "Inibidor da bomba de prótons",
     "via": "Oral"
   },

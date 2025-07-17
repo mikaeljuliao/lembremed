@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       nome: formularioMedicamento.nome.value.trim(),
       dosagem: formularioMedicamento.dosagem.value.trim(),
       horario: formularioMedicamento.horario.value,
-      observacoes: formularioMedicamento.obs.value.trim()
+      observacoes: formularioMedicamento.observacoes.value.trim() // ✅ Correção aqui
     };
 
     medicamentosSalvos.push(novoMedicamento);
@@ -41,6 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
     renderizarListaDeMedicamentos();
     formularioMedicamento.reset();
   }
+
+  let nomesMedicamentos = [];
+
+  fetch('data/medicamentos.json/')
+    .then((resposta) => resposta.json())
+    .then((dados) => {
+      nomesMedicamentos = dados.map((med) => med.nome);
+      console.log('Medicamentos carregados:', nomesMedicamentos);
+    })
+    .catch((erro) => console.error('Erro ao carregar medicamentos:', erro));
 
   formularioMedicamento.addEventListener('submit', aoEnviarFormulario);
 
