@@ -2,31 +2,34 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LembreMed 💊</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <main class="container">
     <h1>LembreMed 💊</h1>
-    <p>Organize seus medicamentos e nunca mais perca um horário!</p>
-  </header>
 
-  <main>
-    <section class="form-section">
-      <h2>Cadastrar Medicamento</h2>
-      <!-- form que colote todos os dados do remedio-->
-      <form id="medForm">
-        <input type="text" id="nome" placeholder="Nome do medicamento" required />
-        <ul id="sugestoes" class="autocomplete-list"></ul>
-        <input type="text" id="dosagem" placeholder="Dosagem (ex: 500mg)" required />
-        <input type="time" id="horario" required />
-        <textarea id="obs" placeholder="Observações"></textarea>
-        <button type="submit">Adicionar</button>
-      </form>
-    </section>
+    <form id="medForm">
+      <div class="campo-autocomplete">
+        <label for="nome">Nome do Medicamento:</label>
+        <input type="text" id="nome" name="nome" autocomplete="off" required />
+        <ul id="sugestoes"></ul>
+      </div>
 
-    <section class="lista-section">
+      <label for="dosagem">Dosagem:</label>
+      <input type="text" id="dosagem" name="dosagem" required />
+
+      <label for="horario">Horário:</label>
+      <input type="time" id="horario" name="horario" required />
+
+      <label for="obs">Observações:</label>
+      <textarea id="obs" name="obs"></textarea>
+
+      <button type="submit">Adicionar Medicamento</button>
+    </form>
+
+    <section>
       <h2>Meus Medicamentos</h2>
       <ul id="listaMedicamentos"></ul>
     </section>
