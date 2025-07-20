@@ -10,7 +10,7 @@
     "nome": "Ibuprofeno",
     "fabricante": "Neo Química",
     "tipo": "Antiinflamatório",
-    "classe": "AINEs (anti-inflamatórios não esteroidais)",
+    "classe": "AINEs",
     "via": "Oral"
   },
   {
@@ -25,7 +25,7 @@
     "fabricante": "Sanofi",
     "tipo": "Analgésico e Antitérmico",
     "classe": "Pirazolonas",
-    "via": "Oral ou injetável"
+    "via": "Oral ou Injetável"
   },
   {
     "nome": "Omeprazol",
@@ -38,7 +38,147 @@
     "nome": "Losartana Potássica",
     "fabricante": "EMS",
     "tipo": "Antihipertensivo",
-    "classe": "Antagonista dos receptores de angiotensina II (BRA)",
+    "classe": "BRA",
+    "via": "Oral"
+  },
+  {
+    "nome": "Simeticona",
+    "fabricante": "Luftal",
+    "tipo": "Antiflatulento",
+    "classe": "Silicones",
+    "via": "Oral"
+  },
+  {
+    "nome": "Cetirizina",
+    "fabricante": "EMS",
+    "tipo": "Antialérgico",
+    "classe": "Anti-histamínico",
+    "via": "Oral"
+  },
+  {
+    "nome": "Clonazepam",
+    "fabricante": "Roche",
+    "tipo": "Ansiolítico",
+    "classe": "Benzodiazepínico",
+    "via": "Oral"
+  },
+  {
+    "nome": "Sertralina",
+    "fabricante": "EMS",
+    "tipo": "Antidepressivo",
+    "classe": "ISRS",
+    "via": "Oral"
+  },
+  {
+    "nome": "Metformina",
+    "fabricante": "Merck",
+    "tipo": "Antidiabético",
+    "classe": "Biguanida",
+    "via": "Oral"
+  },
+  {
+    "nome": "Enalapril",
+    "fabricante": "Medley",
+    "tipo": "Antihipertensivo",
+    "classe": "IECA",
+    "via": "Oral"
+  },
+  {
+    "nome": "Levotiroxina Sódica",
+    "fabricante": "Euthyrox",
+    "tipo": "Hormônio tireoidiano",
+    "classe": "Hormônio sintético da tireoide",
+    "via": "Oral"
+  },
+  {
+    "nome": "Azitromicina",
+    "fabricante": "EMS",
+    "tipo": "Antibiótico",
+    "classe": "Macrolídeo",
+    "via": "Oral"
+  },
+  {
+    "nome": "Dexametasona",
+    "fabricante": "Aché",
+    "tipo": "Corticóide",
+    "classe": "Glicocorticoide",
+    "via": "Oral ou Injetável"
+  },
+  {
+    "nome": "Salbutamol",
+    "fabricante": "Aerolin",
+    "tipo": "Broncodilatador",
+    "classe": "Beta-2 agonista",
+    "via": "Inalatória"
+  },
+  {
+    "nome": "Nimesulida",
+    "fabricante": "Aché",
+    "tipo": "Antiinflamatório",
+    "classe": "AINEs",
+    "via": "Oral"
+  },
+  {
+    "nome": "Hidroclorotiazida",
+    "fabricante": "Teuto",
+    "tipo": "Diurético",
+    "classe": "Tiazídico",
+    "via": "Oral"
+  },
+  {
+    "nome": "Lorazepam",
+    "fabricante": "União Química",
+    "tipo": "Ansiolítico",
+    "classe": "Benzodiazepínico",
+    "via": "Oral"
+  },
+  {
+    "nome": "Captopril",
+    "fabricante": "Medley",
+    "tipo": "Antihipertensivo",
+    "classe": "IECA",
+    "via": "Oral"
+  },
+  {
+    "nome": "Furosemida",
+    "fabricante": "Teuto",
+    "tipo": "Diurético",
+    "classe": "De alça",
+    "via": "Oral ou Injetável"
+  },
+  {
+    "nome": "Atenolol",
+    "fabricante": "Medley",
+    "tipo": "Betabloqueador",
+    "classe": "Beta-1 seletivo",
+    "via": "Oral"
+  },
+  {
+    "nome": "Tramadol",
+    "fabricante": "Cristália",
+    "tipo": "Analgésico",
+    "classe": "Opioide",
+    "via": "Oral"
+  },
+  {
+    "nome": "Ranitidina",
+    "fabricante": "Medley",
+    "tipo": "Antiácido",
+    "classe": "Antagonista H2",
+    "via": "Oral"
+  },
+  {
+    "nome": "Prednisona",
+    "fabricante": "EMS",
+    "tipo": "Corticóide",
+    "classe": "Glicocorticoide",
+    "via": "Oral"
+  },
+  {
+    "nome": "Codeína",
+    "fabricante": "Neo Química",
+    "tipo": "Antitussígeno",
+    "classe": "Opioide leve",
     "via": "Oral"
   }
 ]
