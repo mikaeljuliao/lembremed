@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const listaDeMedicamentos = document.getElementById('listaMedicamentos');
   const inputNome = document.getElementById('nome');
   const sugestoes = document.getElementById('sugestoes');
+  const modal = document.getElementById('modalConfirmacao');
+  const btnCancelarModal = document.getElementById('btnCancelarModal');
+  const btnConfirmarModal = document.getElementById('btnConfirmarModal');
 
   let indiceEditando = null
   //esse let vai guardar qual item está editando, se foor null, siginifica que não esta editando nada, só adicionando novo
@@ -13,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let medicamentoSelecionado = null;
   const medicamentosSalvos = JSON.parse(localStorage.getItem('medicamentos')) || [];
   let nomesMedicamentos = [];
+  let indiceParaRemover = null;
 
   // Salva no localStorage
   function salvarNoArmazenamento() {
@@ -51,6 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
   return item;
 }
 
+ 
+  function mostrarMensagemDeSucesso() {
+    const mensagem = document.getElementById('mensagemDeSucesso');
+    mensagem.style.display = 'block';
+
+    // aguarda 3 segundos antes de esconder com setTimeout
+    setTimeout(() =>{
+        mensagem.style.display = 'none'
+    },3000);
+}
+
   // Renderiza a lista de medicamentos salvos
   function renderizarListaDeMedicamentos() {
   listaDeMedicamentos.innerHTML = '';
@@ -79,21 +94,44 @@ document.addEventListener('DOMContentLoaded', () => {
     formularioMedicamento.classList.add('editando'); 
     // Armazena o índice do item que está sendo editado
     indiceEditando = index;
+
+    // modo de edição ativado, mudando o botão para "atualizar"
+    document.getElementById('status-edicao').style.display = 'block';
+    formularioMedicamento.classList.add('modo-edicao');
+    document.querySelector('button[type="submit"]').textContent = 'Atualizar';
   });
 });
+
+
 
   // Ativar os botões de remover
   const botoesRemover = document.querySelectorAll('.btn-remover');
   botoesRemover.forEach((botao) => {
     botao.addEventListener('click', () => {
       const index = botao.dataset.index;
-      medicamentosSalvos.splice(index, 1); // remove do array
-      salvarNoArmazenamento();
-      renderizarListaDeMedicamentos(); // atualiza visual
+
+      indiceParaRemover = index //arazena temporariamente o indice
+      modal.style.display = 'flex'
     });
   });
 }
+
+ btnCancelarModal.addEventListener("click", () => {
+    modal.style.display = 'none';
+    indiceParaRemover = null
+ })
   
+ btnConfirmarModal.addEventListener('click', () => {
+    if (indiceParaRemover !== null) {
+        medicamentosSalvos.splice(indiceParaRemover, 1);
+        salvarNoArmazenamento()
+        renderizarListaDeMedicamentos()
+    }
+    indiceParaRemover = null
+    modal.style.display = 'none'
+ })
+
+
 
   function aoEnviarFormulario(evento) {
     evento.preventDefault();
@@ -116,9 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     indiceEditando = null;
     salvarNoArmazenamento();       // Salva no localStorage
     renderizarListaDeMedicamentos(); // Atualiza a lista na tela
-    formularioMedicamento.reset(); // Limpa o formulário
-    sugestoes.innerHTML = '';
-    medicamentoSelecionado = null;
+   
    } else {
     medicamentosSalvos.push(novoMedicamento);
     salvarNoArmazenamento();
@@ -127,8 +163,18 @@ document.addEventListener('DOMContentLoaded', () => {
     sugestoes.innerHTML = '';
     medicamentoSelecionado = null;
   }
-   formularioMedicamento.classList.remove('editando'); // Adiciona o destaque visual
+   formularioMedicamento.reset(); // Limpa o formulário
+    sugestoes.innerHTML = '';
+    medicamentoSelecionado = null;
+
+    document.getElementById('status-edicao').style.display = 'none';
+    formularioMedicamento.classList.remove('modo-edicao');
+     document.querySelector('button[type="submit"]').textContent = 'Adicionar Medicamento';
+   formularioMedicamento.classList.remove('editando'); 
+
+   mostrarMensagemDeSucesso()
 }
+
 
   // Parte do autocomplete do nome do medicamento
   inputNome.addEventListener('input', () => {
