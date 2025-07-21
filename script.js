@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('medicamentos', JSON.stringify(medicamentosSalvos));
   }
 
+  const dataDeAgora = new Date()
+  console.log('hora atual:', dataDeAgora)
+
   // Cria o item da lista com os dados
   function criarItemDaLista(medicamento, index) {
   const item = document.createElement('li');
@@ -138,6 +141,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const nomeDigitado = formularioMedicamento.nome.value.trim();
 
+   const horarioDigitado = formularioMedicamento.horario.value;
+   console.log("horário digitado:", horarioDigitado)
+
+   // criar um objeto Date com o hórario digitado
+   const [horas, minutos] = horarioDigitado.split(':')
+   const horarioDeAgora = new Date()
+   const horaAlvo = new Date(horarioDeAgora.getFullYear(), agora.getMonth(), agora.getDate(), horas, minutos);
+   const diferencaEmMs = horaAlvo.getTime() - horarioDeAgora.getTime() // diferença em milesegundos
+  /* lembrete pra mim: getTime(), retorna o tempo em milesegundos desde 1 de janeiro de 1970. subitrair dois 
+   Date te dá a diferença em milessegundos */
+
+   const diferencaEmMinutos = Math.floor(diferencaEmMs / 100 / 60);
+   const horasRestantes = diferencaEmMinutos % 60;
+   
+   console.log(`Faltam ${horasRestantes}h e ${minutosRestantes}min para o horário alvo`);
+
+
    // Garante que mesmo sem clicar, se o nome existir no JSON, vai puxar os dados
    const dadosDoJson = bancoDeMedicamentos.find((med) => med.nome.toLowerCase() === nomeDigitado.toLowerCase());
 
@@ -173,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
    formularioMedicamento.classList.remove('editando'); 
 
    mostrarMensagemDeSucesso()
+ 
 }
 
 
