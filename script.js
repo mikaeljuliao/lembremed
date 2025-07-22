@@ -35,12 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const item = document.createElement('li');
     item.classList.add('medicamento-item');
 
- 
+    const dataHoraAtual = new Date()
+    const [horaDigitada, minutoDigitado] = medicamento.horario.split(':')
+    const dataHoraDoMedicamento = new Date(dataHoraAtual.getFullYear(), dataHoraAtual.getMonth(),
+    dataHoraAtual.getDate(), parseInt(horaDigitada), parseInt(minutoDigitado))
+    const diferencaEmMinutos = dataHoraDoMedicamento.getTime() - dataHoraAtual.getTime()
+
+    let mensagemDeTempoRestante = '';
+
+    if(diferencaEmMinutos > 0) {
+      const totalMinutosRestantes = Math.floor(diferencaEmMinutos / 1000 / 60)
+      const horasRestantes = Math.floor(totalMinutosRestantes / 60)
+      const minutosRestantes =  totalMinutosRestantes % 60;
+
+      mensagemDeTempoRestante = `Faltam ${horasRestantes}h e ${minutosRestantes} `
+    } else {
+      mensagemDeTempoRestante = `Já passou do horário`
+    }
 
 
     item.innerHTML = `
       <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - ${medicamento.horario}<br/> 
-      <small><em>${medicamento.observacoes}</em></small>
+      <small><em>${medicamento.observacoes}</em></small> <p class="tempo-restante">${mensagemDeTempoRestante}
 
       ${
         medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
