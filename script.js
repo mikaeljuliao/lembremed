@@ -8,10 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCancelarModal = document.getElementById('btnCancelarModal');
   const btnConfirmarModal = document.getElementById('btnConfirmarModal');
 
-  let indiceEditando = null
-  //esse let vai guardar qual item está editando, se foor null, siginifica que não esta editando nada, só adicionando novo
-
-  // Variáveis globais
+  let indiceEditando = null; // esse let vai guardar qual item está editando, se for null, significa que não está editando nada, só adicionando novo
   let bancoDeMedicamentos = [];
   let medicamentoSelecionado = null;
   const medicamentosSalvos = JSON.parse(localStorage.getItem('medicamentos')) || [];
@@ -23,183 +20,170 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('medicamentos', JSON.stringify(medicamentosSalvos));
   }
 
-  const dataDeAgora = new Date()
-  console.log('hora atual:', dataDeAgora)
-
-  // Cria o item da lista com os dados
-  function criarItemDaLista(medicamento, index) {
-  const item = document.createElement('li');
-  item.classList.add('medicamento-item');
-
-  item.innerHTML = `
-    <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - ${medicamento.horario}<br/>
-    <small><em>${medicamento.observacoes}</em></small>
-
-    ${
-      medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
-        ? `
-        <div class="dados-json">
-          <p><strong>Informações do medicamento:</strong></p>
-          <ul>
-            <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
-            <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
-            <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
-            <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
-          </ul>
-        </div>
-        `
-        : ''
-    }
-
-    <button class="btn-remover" data-index="${index}">Remover</button>
-    <button class="btn-editar" data-index="${index}">Editar</button>
-  `;
-
-  return item;
-}
-
- 
+  // Mostra a mensagem de sucesso
   function mostrarMensagemDeSucesso() {
     const mensagem = document.getElementById('mensagemDeSucesso');
     mensagem.style.display = 'block';
 
-    // aguarda 3 segundos antes de esconder com setTimeout
-    setTimeout(() =>{
-        mensagem.style.display = 'none'
-    },3000);
-}
+    setTimeout(() => {
+      mensagem.style.display = 'none';
+    }, 3000);
+  }
+
+  // Cria o item da lista com os dados
+  function criarItemDaLista(medicamento, index) {
+    const item = document.createElement('li');
+    item.classList.add('medicamento-item');
+
+ 
+
+
+    item.innerHTML = `
+      <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - ${medicamento.horario}<br/> 
+      <small><em>${medicamento.observacoes}</em></small>
+
+      ${
+        medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
+          ? `
+          <div class="dados-json">
+            <p><strong>Informações do medicamento:</strong></p>
+            <ul>
+              <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
+              <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
+              <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
+              <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
+            </ul>
+          </div>
+          `
+          : ''
+      }
+
+      <button class="btn-remover" data-index="${index}">Remover</button>
+      <button class="btn-editar" data-index="${index}">Editar</button>
+    `;
+
+    return item;
+  }
 
   // Renderiza a lista de medicamentos salvos
   function renderizarListaDeMedicamentos() {
-  listaDeMedicamentos.innerHTML = '';
+    listaDeMedicamentos.innerHTML = '';
 
-  medicamentosSalvos.forEach((medicamento, index) => {
-    const item = criarItemDaLista(medicamento, index);
-    listaDeMedicamentos.appendChild(item);
-  });
-
-   // Ativar os botões de editar
-    const botoesDeEditar = document.querySelectorAll('.btn-editar');
-
-    botoesDeEditar.forEach((botao) => {
-    botao.addEventListener('click', () => {
-
-    const index = botao.dataset.index;
-    const medicamento = medicamentosSalvos[index];
-
-    // Preenche os campos do formulário com os dados do item já existentes
-    formularioMedicamento.nome.value = medicamento.nome;
-    formularioMedicamento.dosagem.value = medicamento.dosagem;
-    formularioMedicamento.horario.value = medicamento.horario;
-    formularioMedicamento.obs.value = medicamento.observacoes;
-
-    inputNome.focus()
-    formularioMedicamento.classList.add('editando'); 
-    // Armazena o índice do item que está sendo editado
-    indiceEditando = index;
-
-    // modo de edição ativado, mudando o botão para "atualizar"
-    document.getElementById('status-edicao').style.display = 'block';
-    formularioMedicamento.classList.add('modo-edicao');
-    document.querySelector('button[type="submit"]').textContent = 'Atualizar';
-  });
-});
-
-
-
-  // Ativar os botões de remover
-  const botoesRemover = document.querySelectorAll('.btn-remover');
-  botoesRemover.forEach((botao) => {
-    botao.addEventListener('click', () => {
-      const index = botao.dataset.index;
-
-      indiceParaRemover = index //arazena temporariamente o indice
-      modal.style.display = 'flex'
+    medicamentosSalvos.forEach((medicamento, index) => {
+      const item = criarItemDaLista(medicamento, index);
+      listaDeMedicamentos.appendChild(item);
     });
-  });
-}
 
- btnCancelarModal.addEventListener("click", () => {
+    // Ativar os botões de editar
+    const botoesDeEditar = document.querySelectorAll('.btn-editar');
+    botoesDeEditar.forEach((botao) => {
+      botao.addEventListener('click', () => {
+        const index = botao.dataset.index;
+        const medicamento = medicamentosSalvos[index];
+
+        // Preenche os campos do formulário com os dados do item já existentes
+        formularioMedicamento.nome.value = medicamento.nome;
+        formularioMedicamento.dosagem.value = medicamento.dosagem;
+        formularioMedicamento.horario.value = medicamento.horario;
+        formularioMedicamento.obs.value = medicamento.observacoes;
+
+        inputNome.focus();
+        formularioMedicamento.classList.add('editando');
+        indiceEditando = index;
+
+        document.getElementById('status-edicao').style.display = 'block';
+        formularioMedicamento.classList.add('modo-edicao');
+        document.querySelector('button[type="submit"]').textContent = 'Atualizar';
+      });
+    });
+
+    // Ativar os botões de remover
+    const botoesRemover = document.querySelectorAll('.btn-remover');
+    botoesRemover.forEach((botao) => {
+      botao.addEventListener('click', () => {
+        const index = botao.dataset.index;
+        indiceParaRemover = index; // armazena temporariamente o índice
+        modal.style.display = 'flex';
+      });
+    });
+  }
+
+  // Modal de confirmação
+  btnCancelarModal.addEventListener("click", () => {
     modal.style.display = 'none';
-    indiceParaRemover = null
- })
-  
- btnConfirmarModal.addEventListener('click', () => {
+    indiceParaRemover = null;
+  });
+
+  btnConfirmarModal.addEventListener('click', () => {
     if (indiceParaRemover !== null) {
-        medicamentosSalvos.splice(indiceParaRemover, 1);
-        salvarNoArmazenamento()
-        renderizarListaDeMedicamentos()
+      medicamentosSalvos.splice(indiceParaRemover, 1);
+      salvarNoArmazenamento();
+      renderizarListaDeMedicamentos();
     }
-    indiceParaRemover = null
-    modal.style.display = 'none'
- })
+    indiceParaRemover = null;
+    modal.style.display = 'none';
+  });
 
-
-
+  // Função ao enviar o formulário
   function aoEnviarFormulario(evento) {
     evento.preventDefault();
 
-   const nomeDigitado = formularioMedicamento.nome.value.trim();
+    const nomeDigitado = formularioMedicamento.nome.value.trim();
+    const horarioDigitado = formularioMedicamento.horario.value;
+    console.log("horário digitado:", horarioDigitado);
 
-   const horarioDigitado = formularioMedicamento.horario.value;
-   console.log("horário digitado:", horarioDigitado)
+    const [horas, minutos] = horarioDigitado.split(':');
+    const horarioDeAgora = new Date();
+    const horaAlvo = new Date(
+      horarioDeAgora.getFullYear(),
+      horarioDeAgora.getMonth(),
+      horarioDeAgora.getDate(),
+      horas,
+      minutos
+    );
 
-   // criar um objeto Date com o hórario digitado
-   const [horas, minutos] = horarioDigitado.split(':')
-   const horarioDeAgora = new Date()
-   const horaAlvo = new Date(horarioDeAgora.getFullYear(), agora.getMonth(), agora.getDate(), horas, minutos);
-   const diferencaEmMs = horaAlvo.getTime() - horarioDeAgora.getTime() // diferença em milesegundos
-  /* lembrete pra mim: getTime(), retorna o tempo em milesegundos desde 1 de janeiro de 1970. subitrair dois 
-   Date te dá a diferença em milessegundos */
+    const diferencaEmMs = horaAlvo.getTime() - horarioDeAgora.getTime();
+    const diferencaEmMinutos = Math.floor(diferencaEmMs / 1000 / 60);
+    const horasRestantes = Math.floor(diferencaEmMinutos / 60);
+    const minutosRestantes = diferencaEmMinutos % 60;
 
-   const diferencaEmMinutos = Math.floor(diferencaEmMs / 100 / 60);
-   const horasRestantes = diferencaEmMinutos % 60;
-   
-   console.log(`Faltam ${horasRestantes}h e ${minutosRestantes}min para o horário alvo`);
+    console.log(`Faltam ${horasRestantes}h e ${minutosRestantes}min para o horário alvo`);
 
+    const dadosDoJson = bancoDeMedicamentos.find(
+      (med) => med.nome.toLowerCase() === nomeDigitado.toLowerCase()
+    );
 
-   // Garante que mesmo sem clicar, se o nome existir no JSON, vai puxar os dados
-   const dadosDoJson = bancoDeMedicamentos.find((med) => med.nome.toLowerCase() === nomeDigitado.toLowerCase());
+    const novoMedicamento = {
+      nome: nomeDigitado,
+      dosagem: formularioMedicamento.dosagem.value.trim(),
+      horario: formularioMedicamento.horario.value,
+      observacoes: formularioMedicamento.obs.value.trim(),
+      ...dadosDoJson
+    };
 
-   const novoMedicamento = {
-   nome: nomeDigitado,
-   dosagem: formularioMedicamento.dosagem.value.trim(),
-   horario: formularioMedicamento.horario.value,
-   observacoes: formularioMedicamento.obs.value.trim(),
-   ...dadosDoJson // inclui os dados encontrados no JSON (se existir)
-   
-};
     if (indiceEditando !== null) {
-    medicamentosSalvos.splice(indiceEditando, 1, novoMedicamento);
-    indiceEditando = null;
-    salvarNoArmazenamento();       // Salva no localStorage
-    renderizarListaDeMedicamentos(); // Atualiza a lista na tela
-   
-   } else {
-    medicamentosSalvos.push(novoMedicamento);
+      medicamentosSalvos.splice(indiceEditando, 1, novoMedicamento);
+      indiceEditando = null;
+    } else {
+      medicamentosSalvos.push(novoMedicamento);
+    }
+
     salvarNoArmazenamento();
     renderizarListaDeMedicamentos();
     formularioMedicamento.reset();
     sugestoes.innerHTML = '';
     medicamentoSelecionado = null;
-  }
-   formularioMedicamento.reset(); // Limpa o formulário
-    sugestoes.innerHTML = '';
-    medicamentoSelecionado = null;
 
     document.getElementById('status-edicao').style.display = 'none';
     formularioMedicamento.classList.remove('modo-edicao');
-     document.querySelector('button[type="submit"]').textContent = 'Adicionar Medicamento';
-   formularioMedicamento.classList.remove('editando'); 
+    formularioMedicamento.classList.remove('editando');
+    document.querySelector('button[type="submit"]').textContent = 'Adicionar Medicamento';
 
-   mostrarMensagemDeSucesso()
- 
-}
-
+    mostrarMensagemDeSucesso();
+  }
 
   // Parte do autocomplete do nome do medicamento
   inputNome.addEventListener('input', () => {
-    // obs pra mim: o código acima escuta quando o usuário digita algo no input de nome
     const termo = inputNome.value.toLowerCase();
     sugestoes.innerHTML = '';
 
@@ -214,46 +198,30 @@ document.addEventListener('DOMContentLoaded', () => {
       item.textContent = nome;
       item.classList.add('sugestao-item');
 
-      // evento de click de sugestões, busca os dsados do medicamento completo
       item.addEventListener('click', () => {
         const nomeSelecionado = item.textContent;
-
-        medicamentoSelecionado = bancoDeMedicamentos.find(
-          (med) => med.nome === nomeSelecionado
-        );
-
+        medicamentoSelecionado = bancoDeMedicamentos.find((med) => med.nome === nomeSelecionado);
         inputNome.value = nomeSelecionado;
         sugestoes.innerHTML = '';
       });
 
       sugestoes.appendChild(item);
     });
-
-  
   });
 
   // Carrega o JSON de medicamentos
   fetch('data/medicamentos.json')
     .then((res) => res.json())
     .then((dados) => {
-      bancoDeMedicamentos = dados; // salva o array completo de medicamentos
-      nomesMedicamentos = dados.map((med) => med.nome); // extrai só os nomes para o autocomplete
+      bancoDeMedicamentos = dados;
+      nomesMedicamentos = dados.map((med) => med.nome);
       console.log('Medicamentos carregados:', nomesMedicamentos);
     })
     .catch((erro) => console.error('Erro ao carregar medicamentos:', erro));
 
   formularioMedicamento.addEventListener('submit', aoEnviarFormulario);
   renderizarListaDeMedicamentos();
-});
-
-
-
-
-
-
-
-
-
+});11 
 
 
 
