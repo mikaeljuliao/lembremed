@@ -59,7 +59,6 @@ const atualizarContador = () => {
 
 atualizarContador();
 const intervalo = setInterval(atualizarContador, 1000);
-=======
     const dataHoraAtual = new Date();
     const [horaDigitada, minutoDigitado] = medicamento.horario.split(':');
 
