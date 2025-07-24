@@ -37,64 +37,59 @@ document.addEventListener('DOMContentLoaded', () => {
     tempoRestanteSpan.classList.add('tempo-restante');
     item.classList.add('medicamento-item');
 
-    const tempoRestanteMs = medicamento.tempoAlvoEmMilessegundos - Date.now();
+    const horaAlvo = new Date(medicamento.tempoAlvoEmMilessegundos);
+const atualizarContador = () => {
+  const agora = new Date();
+  const diferenca = horaAlvo - agora;
 
-   const [hora, minuto] = medicamento.horario.split(':');
-const horaAlvo = new Date();
-horaAlvo.setHours(parseInt(hora));
-horaAlvo.setMinutes(parseInt(minuto));
-horaAlvo.setSeconds(0);
+  if (diferenca <= 0) {
+    clearInterval(intervalo);
+    tempoRestanteSpan.textContent = '⏰ Tempo esgotado!';
+    return;
+  }
 
-// Verificação: se a hora já passou hoje, não faz nada
-  if (horaAlvo < new Date()) {
-  tempoRestanteSpan.textContent = '⏰ Já passou do horário';
-  } else {
-  const atualizarContador = () => {
-    const agora = new Date();
-    const diferenca = horaAlvo.getTime() - agora.getTime();
+  const totalSegundos = Math.floor(diferenca / 1000);
+  const horas = Math.floor(totalSegundos / 3600);
+  const minutos = Math.floor((totalSegundos % 3600) / 60);
+  const segundos = totalSegundos % 60;
 
-    if (diferenca <= 0) {
-      clearInterval(intervalo);
-      tempoRestanteSpan.textContent = '⏰ Tempo esgotado!';
-      return;
-    }
+  tempoRestanteSpan.textContent = `⏳ Faltam ${horas}h ${minutos}min ${segundos}s`;
+};
 
-    const totalSegundos = Math.floor(diferenca / 1000);
-    const horas = Math.floor(totalSegundos / 3600);
-    const minutos = Math.floor((totalSegundos % 3600) / 60);
-    const segundos = totalSegundos % 60;
-
-    tempoRestanteSpan.textContent = `⏳ Faltam ${horas}h ${minutos}min ${segundos}s`;
-  };
-
-  atualizarContador(); // chama de cara
-  const intervalo = setInterval(atualizarContador, 1000);
-}
+atualizarContador();
+const intervalo = setInterval(atualizarContador, 1000);
 
     item.innerHTML = `
-      <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - a cada ${medicamento.intervaloHoras}<br/> 
-      <small><em>${medicamento.observacoes}</em></small>
+  <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - a cada ${medicamento.intervaloHoras}hr<br/>
+`;
 
-      ${
-        medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
-          ? `
-          <div class="dados-json">
-            <p><strong>Informações do medicamento:</strong></p>
-            <ul>
-              <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
-              <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
-              <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
-              <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
-            </ul>
-          </div>
-          `
-          : ''
-      }
+// Adiciona o contador logo abaixo do título
+item.appendChild(tempoRestanteSpan);
 
-      <button class="btn-remover" data-index="${index}">Remover</button>
-      <button class="btn-editar" data-index="${index}">Editar</button>
-    `;
-    item.appendChild(tempoRestanteSpan);
+// Continua o restante do conteúdo HTML abaixo do contador
+item.innerHTML += ` <br/>
+ <strong> Observação: </strong>${medicamento.observacoes}
+
+  ${
+    medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
+      ? `
+      <div class="dados-json">
+        <p><strong>Informações do medicamento:</strong></p>
+        <ul>
+          <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
+          <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
+          <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
+          <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
+        </ul>
+      </div>
+      `
+      : ''
+  }
+
+  <button class="btn-remover" data-index="${index}">Remover</button>
+  <button class="btn-editar" data-index="${index}">Editar</button>
+`;
+    
 
     return item;
   }
@@ -160,63 +155,49 @@ horaAlvo.setSeconds(0);
 
   // Função ao enviar o formulário
   function aoEnviarFormulario(evento) {
-    evento.preventDefault();
+  evento.preventDefault();
 
-    const nomeDigitado = formularioMedicamento.nome.value.trim();
-    const horarioDigitado = formularioMedicamento.horario.value;
-    console.log("horário digitado:", horarioDigitado);
+  const nomeDigitado = formularioMedicamento.nome.value.trim();
+  const intervaloDigitado = parseInt(formularioMedicamento.horario.value); // número de horas
 
-    const [horas, minutos] = horarioDigitado.split(':');
-    const horarioDeAgora = new Date();
-    const horaAlvo = new Date(
-      horarioDeAgora.getFullYear(),
-      horarioDeAgora.getMonth(),
-      horarioDeAgora.getDate(),
-      horas,
-      minutos
-    );
-
-    const diferencaEmMs = horaAlvo.getTime() - horarioDeAgora.getTime();
-    const diferencaEmMinutos = Math.floor(diferencaEmMs / 1000 / 60);
-    const horasRestantes = Math.floor(diferencaEmMinutos / 60);
-    const minutosRestantes = diferencaEmMinutos % 60;
-
-    console.log(`Faltam ${horasRestantes}h e ${minutosRestantes}min para o horário alvo`);
-
-    const dadosDoJson = bancoDeMedicamentos.find(
-      (med) => med.nome.toLowerCase() === nomeDigitado.toLowerCase()
-    );
-
-    const novoMedicamento = {
-      nome: nomeDigitado,
-      dosagem: formularioMedicamento.dosagem.value.trim(),
-      intervaloHoras: parseInt(formularioMedicamento.horario.value),
-      tempoAlvoEmMilessegundos: Date.now() + parseInt(formularioMedicamento.horario.value) * 60 * 60 * 1000,
-      observacoes: formularioMedicamento.obs.value.trim(),
-      ...dadosDoJson
-    };
-
-    if (indiceEditando !== null) {
-      medicamentosSalvos.splice(indiceEditando, 1, novoMedicamento);
-      indiceEditando = null;
-    } else {
-      medicamentosSalvos.push(novoMedicamento);
-    }
-
-    
-    salvarNoArmazenamento();
-    renderizarListaDeMedicamentos();
-    formularioMedicamento.reset();
-    sugestoes.innerHTML = '';
-    medicamentoSelecionado = null;
-
-    document.getElementById('status-edicao').style.display = 'none';
-    formularioMedicamento.classList.remove('modo-edicao');
-    formularioMedicamento.classList.remove('editando');
-    document.querySelector('button[type="submit"]').textContent = 'Adicionar Medicamento';
-
-    mostrarMensagemDeSucesso();
+  if (isNaN(intervaloDigitado) || intervaloDigitado <= 0) {
+    alert('Informe o intervalo em horas corretamente.');
+    return;
   }
+
+  const dadosDoJson = bancoDeMedicamentos.find(
+    (med) => med.nome.toLowerCase() === nomeDigitado.toLowerCase()
+  );
+
+  const novoMedicamento = {
+    nome: nomeDigitado,
+    dosagem: formularioMedicamento.dosagem.value.trim(),
+    intervaloHoras: intervaloDigitado,
+    tempoAlvoEmMilessegundos: Date.now() + intervaloDigitado * 60 * 60 * 1000,
+    observacoes: formularioMedicamento.obs.value.trim(),
+    ...dadosDoJson
+  };
+
+  if (indiceEditando !== null) {
+    medicamentosSalvos.splice(indiceEditando, 1, novoMedicamento);
+    indiceEditando = null;
+  } else {
+    medicamentosSalvos.push(novoMedicamento);
+  }
+
+  salvarNoArmazenamento();
+  renderizarListaDeMedicamentos();
+  formularioMedicamento.reset();
+  sugestoes.innerHTML = '';
+  medicamentoSelecionado = null;
+
+  document.getElementById('status-edicao').style.display = 'none';
+  formularioMedicamento.classList.remove('modo-edicao');
+  formularioMedicamento.classList.remove('editando');
+  document.querySelector('button[type="submit"]').textContent = 'Adicionar Medicamento';
+
+  mostrarMensagemDeSucesso();
+}0
 
   // Parte do autocomplete do nome do medicamento
   inputNome.addEventListener('input', () => {
@@ -266,6 +247,8 @@ horaAlvo.setSeconds(0);
 /* 
 algunas coisas que foi usado nesse projeto pra revisão:
 
+,
+  
 Palavra-chave               	O que faz
 
 .addEventListener()	            Escuta eventos como clique, input, submit, etc.
