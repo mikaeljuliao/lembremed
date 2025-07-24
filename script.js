@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tempoRestanteSpan.classList.add('tempo-restante');
     item.classList.add('medicamento-item');
 
+<<<<<<< HEAD
     const horaAlvo = new Date(medicamento.tempoAlvoEmMilessegundos);
 const atualizarContador = () => {
   const agora = new Date();
@@ -58,6 +59,30 @@ const atualizarContador = () => {
 
 atualizarContador();
 const intervalo = setInterval(atualizarContador, 1000);
+=======
+    const dataHoraAtual = new Date();
+    const [horaDigitada, minutoDigitado] = medicamento.horario.split(':');
+
+    const dataHoraDoMedicamento = new Date(
+    dataHoraAtual.getFullYear(),
+    dataHoraAtual.getMonth(),
+    dataHoraAtual.getDate(),
+    parseInt(horaDigitada),
+    parseInt(minutoDigitado)
+  );
+    const diferencaEmMilissegundos = dataHoraDoMedicamento.getTime() - dataHoraAtual.getTime();
+    let mensagemDeTempoRestante = '';
+    
+    if (diferencaEmMilissegundos > 0) {
+    const totalMinutosRestantes = Math.floor(diferencaEmMilissegundos / 1000 / 60);
+    const horasRestantes = Math.floor(totalMinutosRestantes / 60);
+    const minutosRestantes = totalMinutosRestantes % 60;
+
+  mensagemDeTempoRestante = `⏳ Faltam ${horasRestantes}h e ${minutosRestantes}min`;
+} else {
+  mensagemDeTempoRestante = `⏰ Já passou do horário`;
+}
+>>>>>>> 9bd0242b5da84e043c1ab08bb466e756291b34bc
 
     item.innerHTML = `
   <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - a cada ${medicamento.intervaloHoras}hr<br/>
