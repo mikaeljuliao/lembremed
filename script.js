@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tempoRestanteSpan.classList.add('tempo-restante');
     item.classList.add('medicamento-item');
 
-<<<<<<< HEAD
+
     const horaAlvo = new Date(medicamento.tempoAlvoEmMilessegundos);
 const atualizarContador = () => {
   const agora = new Date();
