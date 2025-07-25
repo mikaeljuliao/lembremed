@@ -27,37 +27,78 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('hora atual:', dataDeAgora)
 
   // Cria o item da lista com os dados
-  function criarItemDaLista(medicamento, index) {
+ function criarItemDaLista(medicamento, index) {
   const item = document.createElement('li');
   item.classList.add('medicamento-item');
 
-  item.innerHTML = `
-    <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - ${medicamento.horario}<br/>
-    <small><em>${medicamento.observacoes}</em></small>
+  const tempoRestanteSpan = document.createElement('span');
+  tempoRestanteSpan.classList.add('tempo-restante');
 
-    ${
-      medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via
-        ? `
-        <div class="dados-json">
-          <p><strong>Informações do medicamento:</strong></p>
-          <ul>
-            <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
-            <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
-            <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
-            <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
-          </ul>
-        </div>
-        `
-        : ''
+  // Recalcula o horário alvo com base no campo 'horario' (HH:MM)
+  const [horas, minutos] = medicamento.horario.split(':');
+  const agora = new Date();
+  const horaAlvo = new Date(
+    agora.getFullYear(),
+    agora.getMonth(),
+    agora.getDate(),
+    parseInt(horas),
+    parseInt(minutos)
+  );
+
+  const atualizarContador = () => {
+    const agora = new Date();
+    const diferenca = horaAlvo - agora;
+
+    if (diferenca <= 0) {
+      clearInterval(intervalo);
+      tempoRestanteSpan.textContent = '⏰ Tempo esgotado!';
+      return;
     }
 
+    const totalSegundos = Math.floor(diferenca / 1000);
+    const horas = Math.floor(totalSegundos / 3600);
+    const minutos = Math.floor((totalSegundos % 3600) / 60);
+    const segundos = totalSegundos % 60;
+
+    tempoRestanteSpan.textContent = ⏳ Faltam ${horas}h ${minutos}min ${segundos}s;
+  };
+
+  atualizarContador();
+  let intervalo = setInterval(atualizarContador, 1000);
+
+  // Monta o HTML do item com tudo no lugar certo
+  item.innerHTML = `
+    <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - às ${medicamento.horario}<br/>
+  `;
+
+  item.appendChild(tempoRestanteSpan);
+
+  const observacaoHTML = medicamento.observacoes;
+
+  const dadosExtrasHTML = (medicamento.fabricante || medicamento.tipo || medicamento.classe || medicamento.via)
+    ? `
+      <div class="dados-json">
+        <p><strong>Informações do medicamento:</strong></p>
+        <ul>
+          <li><strong>Fabricante:</strong> ${medicamento.fabricante || 'Não informado'}</li>
+          <li><strong>Tipo:</strong> ${medicamento.tipo || 'Não informado'}</li>
+          <li><strong>Classe:</strong> ${medicamento.classe || 'Não informado'}</li>
+          <li><strong>Via:</strong> ${medicamento.via || 'Não informado'}</li>
+        </ul>
+      </div>
+    `
+    : '';
+
+  item.innerHTML += `
+    ${observacaoHTML}
+    ${dadosExtrasHTML}
+    <br/>
     <button class="btn-remover" data-index="${index}">Remover</button>
     <button class="btn-editar" data-index="${index}">Editar</button>
   `;
 
   return item;
 }
-
  
   function mostrarMensagemDeSucesso() {
     const mensagem = document.getElementById('mensagemDeSucesso');
@@ -145,9 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
    console.log("horário digitado:", horarioDigitado)
 
    // criar um objeto Date com o hórario digitado
-   const [horas, minutos] = horarioDigitado.split(':')
-   const horarioDeAgora = new Date()
-   const horaAlvo = new Date(horarioDeAgora.getFullYear(), agora.getMonth(), agora.getDate(), horas, minutos);
+    const [horas, minutos] = medicamento.horario.split(':');
+const agora = new Date();
+const horaAlvo = new Date(
+  agora.getFullYear(),
+  agora.getMonth(),
+  agora.getDate(),
+  parseInt(horas),
+  parseInt(minutos)
+);
    const diferencaEmMs = horaAlvo.getTime() - horarioDeAgora.getTime() // diferença em milesegundos
   /* lembrete pra mim: getTime(), retorna o tempo em milesegundos desde 1 de janeiro de 1970. subitrair dois 
    Date te dá a diferença em milessegundos */
@@ -260,6 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /* 
 algunas coisas que foi usado nesse projeto pra revisão:
 
+,
+  
 Palavra-chave               	O que faz
 
 .addEventListener()	            Escuta eventos como clique, input, submit, etc.
