@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const minutos = Math.floor((totalSegundos % 3600) / 60);
     const segundos = totalSegundos % 60;
 
-    tempoRestanteSpan.textContent = ⏳ Faltam ${horas}h ${minutos}min ${segundos}s;
+    tempoRestanteSpan.textContent = `⏳ Faltam ${horas}h ${minutos}min ${segundos}s`;
   };
 
   atualizarContador();
