@@ -81,7 +81,6 @@ const intervalo = setInterval(atualizarContador, 1000);
 } else {
   mensagemDeTempoRestante = `⏰ Já passou do horário`;
 }
->>>>>>> 9bd0242b5da84e043c1ab08bb466e756291b34bc
 
     item.innerHTML = `
   <strong>${medicamento.nome}</strong> - ${medicamento.dosagem} - a cada ${medicamento.intervaloHoras}hr<br/>
